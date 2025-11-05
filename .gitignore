@@ -1,0 +1,42 @@
+# CMake build artifacts
+/build/
+/CMakeFiles/
+/CMakeCache.txt
+/Makefile
+/*.cmake
+/*.dir
+/*.o
+/*.obj
+/*.exe
+/*.dll
+/*.so
+/*.dylib
+
+# IDE-specific
+.vscode/
+.idea/
+*.user
+*.suo
+*.ncb
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs / temporary files
+*.log
+*.tmp
+*.temp
+
+# Compiled object files and binaries
+*.out
+*.app
+
+# Coverage and profiling
+*.gcda
+*.gcno
+*.prof
