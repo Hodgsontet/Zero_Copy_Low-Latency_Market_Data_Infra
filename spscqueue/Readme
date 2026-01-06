@@ -1,0 +1,39 @@
+ingle-Producer Single-Consumer (SPSC) Queue Implementation
+
+This implementation of an SPSC (Single-Producer Single-Consumer) queue provides a bounded, lock-free ring buffer intended for low-latency inter-thread communication.
+The queue uses preallocated storage, cache-line separation for producer and consumer indices, and acquire-release memory ordering to achieve predictable performance without locks, heap allocations, or kernel involvement.
+
+When instantiated with pointer types, the queue supports zero-copy data transfer, allowing ownership of payload objects to move between threads without copying the underlying data.
+
+Properties and Advantages
+
+Single-Producer Single-Consumer semantics
+Designed specifically for one producer thread and one consumer thread, allowing a simpler and more efficient synchronization model than general MPMC queues.
+
+Lock-free operation
+Uses atomic operations and memory ordering instead of mutexes, avoiding contention, priority inversion, and system calls.
+
+Bounded ring buffer
+Fixed capacity with preallocated storage ensures deterministic memory usage and predictable behavior under load.
+
+Low-latency behavior
+
+No dynamic memory allocation on the hot path
+
+No locks or blocking calls
+
+Minimal atomic operations per enqueue/dequeue
+
+Cache-line-aligned head and tail indices to reduce false sharing
+
+Zero-copy semantics (pointer usage)
+When the queue stores pointer types (e.g., Order*), payload objects are never copied. Only pointer values are transferred, enabling efficient ownership handoff between producer and consumer.
+
+Busy-spin waiting model
+The producer spins when the queue is full, favoring low latency and low variance over CPU efficiency. This makes the queue suitable for dedicated-thread, latency-sensitive workloads.
+
+Cache-friendly design
+Sequential access to the ring buffer and separation of producer and consumer indices improve cache locality.
+
+Deterministic performance characteristics
+Fixed memory footprint and bounded operations make the queue suitable for real-time or near-real-time systems where predictable latency is important.
