@@ -1,4 +1,4 @@
-ingle-Producer Single-Consumer (SPSC) Queue Implementation
+Single-Producer Single-Consumer (SPSC) Queue Implementation
 
 This implementation of an SPSC (Single-Producer Single-Consumer) queue provides a bounded, lock-free ring buffer intended for low-latency inter-thread communication.
 The queue uses preallocated storage, cache-line separation for producer and consumer indices, and acquire-release memory ordering to achieve predictable performance without locks, heap allocations, or kernel involvement.
