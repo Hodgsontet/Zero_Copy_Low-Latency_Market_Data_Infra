@@ -1,0 +1,67 @@
+Fixed-Block Memory Pool Implementation
+
+This implementation provides a simple fixed-size memory pool built on top of a single bucket of preallocated memory blocks.
+The pool is designed for fast, predictable allocation and deallocation of uniformly sized memory blocks, avoiding heap allocations and minimizing runtime overhead.
+
+Memory is allocated from a contiguous buffer and managed using a lightweight freelist, making this pool suitable for low-latency systems, object pooling, and scenarios where allocation patterns are known in advance.
+
+Properties and Advantages
+
+Fixed-size block allocation
+All allocations return memory blocks of the same size (block_size), enabling constant-time allocation and deallocation.
+
+Preallocated contiguous storage
+Memory is allocated upfront as a single contiguous buffer, eliminating runtime heap usage and ensuring predictable memory layout.
+
+O(1) allocation and release
+Allocation and release operations are simple index manipulations on a freelist, with no searching, locking, or system calls.
+
+Low-latency behavior
+
+No dynamic memory allocation on the hot path
+
+No locks or synchronization primitives
+
+Minimal instruction count per operation
+
+Cache-friendly design
+
+Contiguous memory improves cache locality
+
+Fixed-size blocks reduce fragmentation
+
+Simple array-based freelist
+
+Deterministic memory usage
+The pool has a fixed capacity (block_length) and predictable behavior under load. Allocation fails cleanly when capacity is exhausted.
+
+Suitable for object pooling
+Can be used to back higher-level abstractions such as:
+
+Object pools
+
+Zero-copy queues
+
+Message passing systems
+
+Trading or networking data structures
+
+Usage Notes and Constraints
+
+This memory pool is not thread-safe. External synchronization is required if used across multiple threads.
+
+All allocated blocks must be returned to the pool using release() to avoid exhaustion.
+
+The pool does not track ownership or validate pointers on release; correct usage is the caller’s responsibility.
+
+Blocks are returned as raw char*; placement new can be used to construct objects in-place if needed.
+
+Intended Use Cases
+
+Low-latency systems requiring predictable allocation behavior
+
+Fixed-size object allocation
+
+Object reuse in performance-critical pipelines
+
+Memory backing for zero-copy queues or message passing systems
